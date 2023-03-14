@@ -2,6 +2,7 @@ package com.ll.basic1;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,19 +69,23 @@ public class HomeController {
         return people;
     }
 
-    @GetMapping("/home/removePerson")
+    @GetMapping("/home/modifyPerson")
     @ResponseBody
-    public String removePerson(@RequestParam int id){
-        boolean removed = people.removeIf(person -> person.getId() == id);
-        if(!removed){
-            return id+"번 사람이 존재하지 않습니다.";
+    public String modifyPerson(@RequestParam int id, String name, int age){
+        for(Person person : people){
+            if(person.getId() == id){
+                person.setName(name);
+                person.setAge(age);
+                return id+"번 사람이 수정되었습니다.";
+            }
         }
-        return id+"번 사람이 삭제되었습니다.";
+        return id+"번 사람이 존재하지 않습니다.";
     }
 }
 
 @AllArgsConstructor
 @Getter
+@Setter
 class Person {
     private int id;
     private String name;
