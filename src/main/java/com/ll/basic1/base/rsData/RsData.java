@@ -12,4 +12,8 @@ public class RsData {
     public static RsData of(String resultCode, String msg){
         return new RsData(resultCode, msg);
     }
+
+    public boolean isSuccess(){
+        return resultCode.startsWith("S-");
+    }
 }
