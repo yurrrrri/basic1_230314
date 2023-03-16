@@ -89,4 +89,13 @@ public class Rq {
         session.removeAttribute(key);
         return true;
     }
+
+    public boolean isLogined() {
+        String username = getSession("username", null);
+        return username != null;
+    }
+
+    public boolean isLogout(){
+        return !isLogined();
+    }
 }

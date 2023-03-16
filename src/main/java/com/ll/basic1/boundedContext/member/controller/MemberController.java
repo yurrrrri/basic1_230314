@@ -35,6 +35,24 @@ public class MemberController {
         return rsData;
     }
 
+    @GetMapping("/member/logined")
+    @ResponseBody
+    public String showLogin(){
+        if(rq.isLogined()){
+            return "<h1>로그인 중입니다.</h1>";
+        }
+        return """
+                <h1>로그인</h1>
+                <form action="login">
+                <input type="text" placeholder="아이디" name="username">
+                <input type="password" placeholder="비밀번호" name="password">
+                <input type="submit" value="로그인">
+                </form>
+                """;
+    }
+
+
+
     @GetMapping("/member/logout")
     @ResponseBody
     public RsData logout(){
