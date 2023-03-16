@@ -34,26 +34,8 @@ public class Rq {
         }
 
         if(value == null) return defaultValue;
-
         return value;
     }
-
-//    public long getCookieAsLong(String key, long defaultValue){
-//        long value = -1;
-//
-//        if(req.getCookies() != null){
-//            value = Arrays.stream(req.getCookies())
-//                    .filter(cookie -> cookie.getName().equals(key))
-//                    .map(Cookie::getValue)
-//                    .mapToLong(Long::parseLong)
-//                    .findFirst()
-//                    .orElse(-1);
-//        }
-//
-//        if(value == -1) return defaultValue;
-//
-//        return value;
-//    }
 
     public void removeCookie(String key) {
         if(req.getCookies() != null){
@@ -93,9 +75,5 @@ public class Rq {
     public boolean isLogined() {
         String username = getSession("username", null);
         return username != null;
-    }
-
-    public boolean isLogout(){
-        return !isLogined();
     }
 }

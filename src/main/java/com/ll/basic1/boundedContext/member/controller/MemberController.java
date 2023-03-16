@@ -3,10 +3,10 @@ package com.ll.basic1.boundedContext.member.controller;
 import com.ll.basic1.base.rq.Rq;
 import com.ll.basic1.base.rsData.RsData;
 import com.ll.basic1.boundedContext.member.service.MemberService;
-import jakarta.servlet.http.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -15,7 +15,7 @@ public class MemberController {
     private final MemberService memberService;
     private final Rq rq;
 
-    @GetMapping("/member/login")
+    @PostMapping("/member/login")
     @ResponseBody
     public RsData login(String username, String password){
         if(username == null || username.trim().length() == 0){
@@ -35,12 +35,11 @@ public class MemberController {
         return rsData;
     }
 
-    @GetMapping("/member/logined")
+    @GetMapping("/member/login")
     public String showLogin(){
         if(rq.isLogined()){
             return "usr/member/isLogined";
-        }
-        return "usr/member/login";
+        } else return "usr/member/login";
     }
 
     @GetMapping("/member/logout")
