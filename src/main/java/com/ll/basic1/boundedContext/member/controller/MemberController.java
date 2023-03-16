@@ -2,9 +2,11 @@ package com.ll.basic1.boundedContext.member.controller;
 
 import com.ll.basic1.base.rq.Rq;
 import com.ll.basic1.base.rsData.RsData;
+import com.ll.basic1.boundedContext.member.entity.Member;
 import com.ll.basic1.boundedContext.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,14 +55,10 @@ public class MemberController {
     }
 
     @GetMapping("/member/me")
-    @ResponseBody
-    public RsData showMe(){
+    public String showMe(Model model){
         String username = rq.getSession("username", null);
-
-        if(username == null){
-            return RsData.of("F-1", "로그인 후 이용해주세요.");
-        }
-
-        return RsData.of("S-1", "당신의 username(은)는 %s입니다.".formatted(username));
+        Member member = memberService.findByUsername(username);
+        model.addAttribute("member", member);
+        return "usr/member/me";
     }
 }
