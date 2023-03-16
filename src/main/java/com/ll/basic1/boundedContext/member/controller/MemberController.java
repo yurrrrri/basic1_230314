@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @AllArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    private Rq rq;
+    private final Rq rq;
 
     @GetMapping("/member/login")
     @ResponseBody
@@ -30,6 +30,7 @@ public class MemberController {
 
         if(rsData.isSuccess()){
             rq.setCookie("username", username);
+            rq.setSession("username", username);
         }
         return rsData;
     }
@@ -37,15 +38,17 @@ public class MemberController {
     @GetMapping("/member/logout")
     @ResponseBody
     public RsData logout(){
-        rq.removeCookie("username");
-
-        return RsData.of("S-1", "로그아웃 되었습니다.");
+        boolean logined = rq.removeSession("username");
+        if(logined){
+            return RsData.of("S-1", "로그아웃 되었습니다.");
+        }
+        return RsData.of("S-2", "이미 로그아웃 상태입니다.");
     }
 
     @GetMapping("/member/me")
     @ResponseBody
     public RsData showMe(){
-        String username = rq.getCookie("username", null);
+        String username = rq.getSession("username", null);
 
         if(username == null){
             return RsData.of("F-1", "로그인 후 이용해주세요.");

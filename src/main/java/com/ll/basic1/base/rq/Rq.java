@@ -3,6 +3,7 @@ package com.ll.basic1.base.rq;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -63,5 +64,29 @@ public class Rq {
                         resp.addCookie(cookie);
                     });
         }
+    }
+
+    public void setSession(String key, String value){
+        HttpSession session = req.getSession();
+        session.setAttribute(key, value);
+    }
+
+    public String getSession(String name, String defaultValue) {
+        try{
+            String value = (String)req.getSession().getAttribute(name);
+            if(value==null) return defaultValue;
+            return value;
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public boolean removeSession(String key){
+        HttpSession session = req.getSession();
+
+        if(session.getAttribute(key) == null) return false;
+
+        session.removeAttribute(key);
+        return true;
     }
 }
